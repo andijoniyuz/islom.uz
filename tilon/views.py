@@ -39,8 +39,8 @@ def SearchQuestView(request):
     try:
         count_pages = navContent.find_all("li", recursive=False)[-2].find('a').text.strip()
     except:
-        count_pages = 0
-    if int(count_pages) < int(page) or int(count_pages) == 0:
+        count_pages = 1
+    if (int(count_pages) < int(page) and int(counts) == 0) or (int(count_pages) == 0 and int(counts) == 0):
         error_text = "Saxifa topilmadi."
         return JsonResponse({'ok': False, 'error_text': error_text},
                             json_dumps_params={'ensure_ascii': False, 'indent': 4}, safe=False)
