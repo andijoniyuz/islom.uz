@@ -4,12 +4,27 @@ from requests import get
 
 
 def HomeView(_):
-    return JsonResponse({'Coder': 'TILON', 'Coder_URL': 't.me/TILON', 'repository': 'https://github.com/andijoniyuz/islom.uz'},
+    return JsonResponse(
+        {'Coder': 'TILON', 'Coder_URL': 't.me/TILON', 'repository': 'https://github.com/andijoniyuz/islom.uz'},
+        json_dumps_params={'ensure_ascii': False, 'indent': 4}, safe=False)
+
+
+def NamozRegionsView(_):
+    resp = get("https://islom.uz/region/1")
+    soup = BeautifulSoup(resp.text, features="lxml")
+    regions = soup.find('div', class_="custom-select")
+    region = {}
+    b = 0
+    for i in regions.find('select').find_all('option'):
+        b += 1
+        region[b] = {'region_name': i.text.strip(), 'region_id': int(i['value'])}
+
+    return JsonResponse(region,
                         json_dumps_params={'ensure_ascii': False, 'indent': 4}, safe=False)
 
 
-def NamazView(_):
-    resp = get("https://islom.uz/region/1")
+def NamozView(_, region_id):
+    resp = get(f"https://islom.uz/region/{region_id}")
     soup = BeautifulSoup(resp.text, features="lxml")
     bomdod = soup.find('div', id="tc1").text
     peshin = soup.find('div', id="tc3").text
