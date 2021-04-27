@@ -2,3 +2,4 @@ Django
 gunicorn
 bs4
 requests
+lxml
