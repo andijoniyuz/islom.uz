@@ -3,6 +3,11 @@ from django.http import JsonResponse
 from requests import get
 
 
+def HomeView():
+    return JsonResponse({'Coder': 'TILON', 'Coder_URL': 't.me/TILON', 'repository': 'https://github.com/andijoniyuz'},
+                        json_dumps_params={'ensure_ascii': False, 'indent': 4}, safe=False)
+
+
 def NamazView(_):
     resp = get("https://islom.uz/lotin")
     soup = BeautifulSoup(resp.text, features="lxml")
