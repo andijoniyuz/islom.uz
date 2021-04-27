@@ -4,7 +4,7 @@ from requests import get
 
 
 def HomeView(_):
-    return JsonResponse({'Coder': 'TILON', 'Coder_URL': 't.me/TILON', 'repository': 'https://github.com/andijoniyuz'},
+    return JsonResponse({'Coder': 'TILON', 'Coder_URL': 't.me/TILON', 'repository': 'https://github.com/andijoniyuz/islom.uz'},
                         json_dumps_params={'ensure_ascii': False, 'indent': 4}, safe=False)
 
 
