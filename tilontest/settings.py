@@ -25,7 +25,7 @@ SECRET_KEY = 'ayfwbbe2jg12d)9rci2%#efgyhv%9o-=cxcnauid)38)znh-tl'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['tilontest.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['islomuz.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
