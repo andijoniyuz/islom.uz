@@ -9,7 +9,7 @@ def HomeView(_):
 
 
 def NamazView(_):
-    resp = get("https://islom.uz/lotin")
+    resp = get("https://islom.uz/region/1")
     soup = BeautifulSoup(resp.text, features="lxml")
     bomdod = soup.find('div', id="tc1").text
     peshin = soup.find('div', id="tc3").text
