@@ -136,7 +136,7 @@ def SearchTerminView(request):
         term_id = i.find('th', class_='col-lg-1').text.strip()
         term_name = i.find('th', class_='col-lg-3').text.strip()
         term_text = i.find('th', 'col-lg-8').text.strip()
-        terms[b] = {'term_id': term_id, 'term_name': term_name, 'term_text': term_text}
+        terms[b] = {'term_id': int(term_id), 'term_name': term_name, 'term_text': term_text.replace("  давоми...", "...")}
     return JsonResponse({'ok': True, 'results': terms},
                         json_dumps_params={'ensure_ascii': False, 'indent': 4}, safe=False)
 
