@@ -124,7 +124,13 @@ def SearchTerminView(request):
     term = request.GET.get('term')
     resp = get(f"https://savollar.islom.uz/atamasearch?atama={term}")
     soup = BeautifulSoup(resp.text, features="lxml")
-    termin_info = soup.find('tbody')
+    try:
+        termin_info = soup.find('tbody')
+    except:
+
+        error_text = soup.find('div', class_='alert alert-danger').text.strip()
+        return JsonResponse({'ok': False, 'error_text': error_text},
+                            json_dumps_params={'ensure_ascii': False, 'indent': 4}, safe=False)
     terms = {}
     b = 0
     for i in termin_info.find_all('tr', 'row'):
@@ -133,7 +139,7 @@ def SearchTerminView(request):
         term_name = i.find('th', class_='col-lg-3').text.strip()
         term_text = i.find('th', 'col-lg-8').text.strip()
         terms[b] = {'term_id': term_id, 'term_name': term_name, 'term_text': term_text}
-    return JsonResponse(terms,
+    return JsonResponse({'ok': True, 'results': terms},
                         json_dumps_params={'ensure_ascii': False, 'indent': 4}, safe=False)
 
 
