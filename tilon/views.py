@@ -35,7 +35,7 @@ def NamozView(_, region_id):
 
     times = {"bomdod": bomdod, 'peshin': peshin, 'asr': asr, 'shom': shom, 'xufton': xufton}
 
-    return JsonResponse('ok': True, 'resilts': times},
+    return JsonResponse({'ok': True, 'resilts': times},
                         json_dumps_params={'ensure_ascii': False, 'indent': 4}, safe=False)
 
 
