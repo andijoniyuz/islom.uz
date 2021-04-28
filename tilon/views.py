@@ -11,7 +11,7 @@ def HomeView(_):
 
 
 def NamozRegionsView(_):
-    resp = get("https://islom.uz/region/1")
+    resp = get("https://islom.uz/")
     soup = BeautifulSoup(resp.text, features="lxml")
     regions = soup.find('div', class_="custom-select")
     region = {}
@@ -35,7 +35,7 @@ def NamozView(_, region_id):
 
     times = {"bomdod": bomdod, 'peshin': peshin, 'asr': asr, 'shom': shom, 'xufton': xufton}
 
-    return JsonResponse(times,
+    return JsonResponse('ok': True, 'resilts': times},
                         json_dumps_params={'ensure_ascii': False, 'indent': 4}, safe=False)
 
 
