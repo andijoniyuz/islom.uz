@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from django.http import JsonResponse
+from django.shortcuts import redirect
 from requests import get
 
 
@@ -53,7 +54,6 @@ def SearchQuestView(request):
         counts = 0
     if int(counts) == 0:
         error_text = soup.find("form", id="search_form").find('h4').text.strip()
-        print(error_text)
         return JsonResponse({'ok': False, 'error_text': error_text},
                             json_dumps_params={'ensure_ascii': False, 'indent': 4}, safe=False)
     try:
@@ -106,3 +106,41 @@ def QuestView(_, quest_id):
 
          },
         json_dumps_params={'ensure_ascii': False, 'indent': 4}, safe=False)
+
+
+def TerminView(_, atama_id):
+    url = "https://savollar.islom.uz/atama"
+
+    resp = get(f"{url}/{atama_id}")
+    soup = BeautifulSoup(resp.text, features="lxml")
+    termin_info = soup.find('div', class_='text_in_question').text.strip()
+    termin_name = soup.find('h1').text.strip()
+    return JsonResponse(
+        {'termin_name': termin_name, 'termin_info': termin_info},
+        json_dumps_params={'ensure_ascii': False, 'indent': 4}, safe=False)
+
+
+def SearchTerminView(request):
+    term = request.GET.get('term')
+    resp = get(f"https://savollar.islom.uz/atamasearch?atama={term}")
+    soup = BeautifulSoup(resp.text, features="lxml")
+    termin_info = soup.find('tbody')
+    terms = {}
+    b = 0
+    for i in termin_info.find_all('tr', 'row'):
+        b += 1
+        term_id = i.find('th', class_='col-lg-1').text.strip()
+        term_name = i.find('th', class_='col-lg-3').text.strip()
+        term_text = i.find('th', 'col-lg-8').text.strip()
+        terms[b] = {'term_id': term_id, 'term_name': term_name, 'term_text': term_text}
+    return JsonResponse(terms,
+                        json_dumps_params={'ensure_ascii': False, 'indent': 4}, safe=False)
+
+
+def page_not_found(request, *args, **kwargs):
+    """Page not found Error 404"""
+    return redirect('Home')
+
+
+def handler500(request, *args, **argv):
+    return redirect('Home')
