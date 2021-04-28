@@ -6,5 +6,5 @@ urlpatterns = [
     path('', include('tilon.urls'))
 ]
 
-handler404 = 'apis.views.page_not_found'
-handler500 = 'apis.views.handler500'
+handler404 = 'tilon.views.page_not_found'
+handler500 = 'tilon.views.handler500'
