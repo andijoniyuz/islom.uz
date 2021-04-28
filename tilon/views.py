@@ -11,7 +11,7 @@ def HomeView(_):
 
 
 def NamozRegionsView(_):
-    resp = get("https://islom.uz/")
+    resp = get("https://islom.uz/region/1")
     soup = BeautifulSoup(resp.text, features="lxml")
     regions = soup.find('div', class_="custom-select")
     region = {}
@@ -35,7 +35,7 @@ def NamozView(_, region_id):
 
     times = {"bomdod": bomdod, 'peshin': peshin, 'asr': asr, 'shom': shom, 'xufton': xufton}
 
-    return JsonResponse({'ok': True, 'resilts': times},
+    return JsonResponse(times,
                         json_dumps_params={'ensure_ascii': False, 'indent': 4}, safe=False)
 
 
@@ -124,10 +124,8 @@ def SearchTerminView(request):
     term = request.GET.get('term')
     resp = get(f"https://savollar.islom.uz/atamasearch?atama={term}")
     soup = BeautifulSoup(resp.text, features="lxml")
-    try:
-        termin_info = soup.find('tbody')
-    except:
-
+    termin_info = soup.find('tbody')
+    if not termin_info:
         error_text = soup.find('div', class_='alert alert-danger').text.strip()
         return JsonResponse({'ok': False, 'error_text': error_text},
                             json_dumps_params={'ensure_ascii': False, 'indent': 4}, safe=False)
